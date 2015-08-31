@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections;
 using System.Data;
-using System.Drawing;
+using System.Data.OleDb;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using System.IO;
-using System.Reflection;
-using System.Data.OleDb;
-using System.Data.SqlClient;
-using System.Collections;
+using GropUpEmails.Properties;
 
 namespace GropUpEmails
 {
@@ -19,49 +18,56 @@ namespace GropUpEmails
         public GroupUpEmails()
         {
             InitializeComponent();
+            btnReciever.Click += (sender, e) =>{
+                GetRecieverFilePath();
+            };
+            btnCancel.Click += (sender, e) => {
+                ClearAllText();
+            };
+            btnOK.Click += (sender, e) => {
+                GetMailSend(GetAdressOfRecievers(txtRecieverFile.Text));
+            };
+            FormClosing += (sender, e) => {
+                if (MessageBox.Show(Resources.ComfirmQuit, Resources.Quit, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                    e.Cancel = true;
+                    WindowState = FormWindowState.Minimized;
+                    ShowInTaskbar = false;
+                    Application.Exit();
+                }
+                else {
+                    e.Cancel = true;
+                }
+            };
         }
 
-        private void GroupUpEmails_Load(object sender, EventArgs e)
-        {
-        }
-        private void btnReciever_Click(object sender, EventArgs e)
-        {
-            GetRecieverFilePath();
-        }
         private void GetRecieverFilePath()
         {
-            Stream myStream = null;
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.InitialDirectory = "c:\\";
-            openFileDialog1.Filter = "Excel files (*.xls)|*.xls|All files (*.*)|*.*";
-            openFileDialog1.FilterIndex = 1;
-            openFileDialog1.RestoreDirectory = true;
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = "c:\\",
+                Filter = Resources.ExcelFilter,
+                FilterIndex = 1,
+                RestoreDirectory = true
+            };
 
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    if ((myStream = openFileDialog1.OpenFile()) != null)
+                    Stream myStream = openFileDialog.OpenFile();
+                    using (myStream)
                     {
-                        using (myStream)
-                        {
-                            // Insert code to read the stream here.
-                        }
-                        this.txtRecieverFile.Text = openFileDialog1.FileName;
                     }
+                    txtRecieverFile.Text = openFileDialog.FileName;
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    MessageBox.Show("文件打开错误： " + ex.Message);
+                    MessageBox.Show("文件打开错误： " + e.Message);
                 }
             }
         }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            GetAllTextClear();
-        }
-        private void GetAllTextClear()
+      
+        private void ClearAllText()
         {
             FieldInfo[] infos = GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
             for (int i = 0; i < infos.Length; i++)
@@ -73,31 +79,29 @@ namespace GropUpEmails
             }
         }
 
-        private void btnOK_Click(object sender, EventArgs e)
-        {
-            GetMailSend(GetAdressOfRecievers(txtRecieverFile.Text ));
-        }
         protected void GetMailSend(ArrayList alEmail)
         {
             try
             {
-                txtSender.Text = txtSender.Text.TrimEnd("@163.com".ToCharArray()) + "@163.com";
-                System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
-                client.Host = "smtp.163.com";
-                client.UseDefaultCredentials = false;
-                client.Credentials =new System.Net.NetworkCredential(txtSender.Text, txtPwd.Text);
-                client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
-                ArrayList array =new ArrayList();
-                array = alEmail;
+                txtSender.Text = txtSender.Text.TrimEnd("@163.com".ToCharArray()) + @"@qq.com";
+                SmtpClient client = new SmtpClient
+                {
+                    Host = "smtp.qq.com",
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(txtSender.Text, txtPwd.Text),
+                    DeliveryMethod = SmtpDeliveryMethod.Network
+                };
+                var array = alEmail;
                 foreach(string email in array )
                 {
-                //System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage(txtSender.Text, "HeXiaoMing408@163.com");
-                System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage(txtSender.Text, email);
-                message.Subject = txtTitle.Text;
-                message.Body = txtContent.Text;
-                message.BodyEncoding = System.Text.Encoding.UTF8;
-                message.IsBodyHtml = true;
-                client.Send(message);
+                    MailMessage message = new MailMessage(txtSender.Text, email)
+                    {
+                        Subject = txtTitle.Text,
+                        Body = txtContent.Text,
+                        BodyEncoding = Encoding.UTF8,
+                        IsBodyHtml = true
+                    };
+                    client.Send(message);
                 }
                 MessageBox.Show("发送邮件成功！");
             }
@@ -106,11 +110,11 @@ namespace GropUpEmails
                 MessageBox.Show(e.Message);
             }
         }
-        protected  ArrayList GetAdressOfRecievers(string XlsFilePath)
+        protected  ArrayList GetAdressOfRecievers(string xlsFilePath)
         {
             try
             {
-                string strConn = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=" + XlsFilePath + ";Extended Properties=Excel 8.0";
+                string strConn = "Provider=Microsoft.Ace.OleDb.12.0;Data Source=Server.MapPath(\"" + xlsFilePath + "\");Extended Properties='Excel 12.0; HDR=No; IMEX=1'";
                 string strComm = "SELECT * FROM [Sheet1$]";
                 OleDbConnection myConn = new OleDbConnection(strConn);
                 myConn.Open();
@@ -120,47 +124,26 @@ namespace GropUpEmails
                 myConn.Close();
                 DataTable table = ds.Tables[0];
                 
-                ArrayList Email = new ArrayList();
+                ArrayList email = new ArrayList();
                 foreach (DataRow row in table.Rows)
                 {
                     for (int i = 0; i < table.Columns.Count;i++ )
                     {
-                        string strEmail = string.Empty;
-                        //strEmail = Convert.ToString(row[0]);
-                        strEmail = Convert.ToString(row[i]);
+                        String strEmail = Convert.ToString(row[i]);
                         if(strEmail .Contains('@')&&strEmail.Contains ('.'))
                         {
-                        Email.Add(strEmail);
+                            email.Add(strEmail);
                         }
                     }
                 }
-                return Email;
+                return email;
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
-                throw e;
-            }
-            finally
-            {
-                
+                throw;
             }
         }
-
-        private void GroupUpEmails_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (MessageBox.Show("确定需要退出窗口？", "确认退出...", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                e.Cancel = true;
-                this.WindowState = FormWindowState.Minimized;
-                this.ShowInTaskbar = false;
-            }
-            else
-            {
-                e.Cancel = true;
-            }
-        }
-
     }
 }
 

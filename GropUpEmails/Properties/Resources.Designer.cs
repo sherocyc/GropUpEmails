@@ -59,5 +59,32 @@ namespace GropUpEmails.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   查找类似 确定需要退出窗口？ 的本地化字符串。
+        /// </summary>
+        internal static string ComfirmQuit {
+            get {
+                return ResourceManager.GetString("ComfirmQuit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.* 的本地化字符串。
+        /// </summary>
+        internal static string ExcelFilter {
+            get {
+                return ResourceManager.GetString("ExcelFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 确认退出... 的本地化字符串。
+        /// </summary>
+        internal static string Quit {
+            get {
+                return ResourceManager.GetString("Quit", resourceCulture);
+            }
+        }
     }
 }
