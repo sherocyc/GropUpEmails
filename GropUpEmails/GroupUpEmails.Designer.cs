@@ -48,6 +48,9 @@ namespace GropUpEmails
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtDataFile = new System.Windows.Forms.TextBox();
+            this.btnData = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblSender
@@ -74,9 +77,9 @@ namespace GropUpEmails
             this.lblReciever.Location = new System.Drawing.Point(16, 75);
             this.lblReciever.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblReciever.Name = "lblReciever";
-            this.lblReciever.Size = new System.Drawing.Size(196, 15);
+            this.lblReciever.Size = new System.Drawing.Size(175, 15);
             this.lblReciever.TabIndex = 3;
-            this.lblReciever.Text = "收件人文件（限Xls文件）：";
+            this.lblReciever.Text = "收件人邮箱（*.xlsx）：";
             // 
             // openFileDialogRecievers
             // 
@@ -89,7 +92,7 @@ namespace GropUpEmails
             this.btnReciever.Location = new System.Drawing.Point(520, 69);
             this.btnReciever.Margin = new System.Windows.Forms.Padding(4);
             this.btnReciever.Name = "btnReciever";
-            this.btnReciever.Size = new System.Drawing.Size(160, 29);
+            this.btnReciever.Size = new System.Drawing.Size(160, 25);
             this.btnReciever.TabIndex = 4;
             this.btnReciever.Text = "打开收件人文件...";
             this.btnReciever.UseVisualStyleBackColor = true;
@@ -105,7 +108,7 @@ namespace GropUpEmails
             // lblContent
             // 
             this.lblContent.AutoSize = true;
-            this.lblContent.Location = new System.Drawing.Point(16, 130);
+            this.lblContent.Location = new System.Drawing.Point(16, 166);
             this.lblContent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblContent.Name = "lblContent";
             this.lblContent.Size = new System.Drawing.Size(82, 15);
@@ -115,7 +118,7 @@ namespace GropUpEmails
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(16, 102);
+            this.lblTitle.Location = new System.Drawing.Point(16, 138);
             this.lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(82, 15);
@@ -124,7 +127,7 @@ namespace GropUpEmails
             // 
             // txtContent
             // 
-            this.txtContent.Location = new System.Drawing.Point(111, 126);
+            this.txtContent.Location = new System.Drawing.Point(111, 162);
             this.txtContent.Margin = new System.Windows.Forms.Padding(4);
             this.txtContent.Multiline = true;
             this.txtContent.Name = "txtContent";
@@ -133,7 +136,7 @@ namespace GropUpEmails
             // 
             // txtTitle
             // 
-            this.txtTitle.Location = new System.Drawing.Point(111, 99);
+            this.txtTitle.Location = new System.Drawing.Point(111, 135);
             this.txtTitle.Margin = new System.Windows.Forms.Padding(4);
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(400, 25);
@@ -160,7 +163,7 @@ namespace GropUpEmails
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(457, 304);
+            this.btnOK.Location = new System.Drawing.Point(457, 340);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(100, 29);
@@ -170,7 +173,7 @@ namespace GropUpEmails
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(565, 304);
+            this.btnCancel.Location = new System.Drawing.Point(565, 340);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 29);
@@ -183,15 +186,46 @@ namespace GropUpEmails
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(519, 14);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 15);
+            this.label1.Size = new System.Drawing.Size(87, 15);
             this.label1.TabIndex = 15;
-            this.label1.Text = "@qq.com";
+            this.label1.Text = "@juren.com";
+            // 
+            // txtDataFile
+            // 
+            this.txtDataFile.Location = new System.Drawing.Point(231, 102);
+            this.txtDataFile.Margin = new System.Windows.Forms.Padding(4);
+            this.txtDataFile.Name = "txtDataFile";
+            this.txtDataFile.Size = new System.Drawing.Size(280, 25);
+            this.txtDataFile.TabIndex = 18;
+            // 
+            // btnData
+            // 
+            this.btnData.Location = new System.Drawing.Point(520, 102);
+            this.btnData.Margin = new System.Windows.Forms.Padding(4);
+            this.btnData.Name = "btnData";
+            this.btnData.Size = new System.Drawing.Size(160, 25);
+            this.btnData.TabIndex = 17;
+            this.btnData.Text = "打开数据文件...";
+            this.btnData.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(16, 108);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(160, 15);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "内容数据（*.xlsx）：";
             // 
             // GroupUpEmails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(719, 339);
+            this.ClientSize = new System.Drawing.Size(719, 392);
+            this.Controls.Add(this.txtDataFile);
+            this.Controls.Add(this.btnData);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
@@ -211,7 +245,7 @@ namespace GropUpEmails
             this.MaximizeBox = false;
             this.Name = "GroupUpEmails";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "群发邮件";
+            this.Text = "吕陶丽群发邮件";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -234,6 +268,9 @@ namespace GropUpEmails
         private Button btnOK;
         private Button btnCancel;
         private Label label1;
+        private TextBox txtDataFile;
+        private Button btnData;
+        private Label label2;
     }
 }
 

@@ -21,6 +21,9 @@ namespace GropUpEmails
             btnReciever.Click += (sender, e) =>{
                 GetRecieverFilePath();
             };
+            btnData.Click += (sender, e) => {
+                GetDataFilePath();
+            };
             btnCancel.Click += (sender, e) => {
                 ClearAllText();
             };
@@ -39,34 +42,48 @@ namespace GropUpEmails
                 }
             };
         }
+        private void GetContent() {
 
-        private void GetRecieverFilePath()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                InitialDirectory = "c:\\",
+        }
+        private void GetRecieverFilePath() {
+            OpenFileDialog openFileDialog = new OpenFileDialog {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
                 Filter = Resources.ExcelFilter,
                 FilterIndex = 1,
                 RestoreDirectory = true
             };
 
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    Stream myStream = openFileDialog.OpenFile();
-                    using (myStream)
-                    {
-                    }
-                    txtRecieverFile.Text = openFileDialog.FileName;
+            if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+            try {
+                Stream myStream = openFileDialog.OpenFile();
+                using (myStream) {
                 }
-                catch (Exception e)
-                {
-                    MessageBox.Show("文件打开错误： " + e.Message);
-                }
+                txtRecieverFile.Text = openFileDialog.FileName;
+            }
+            catch (Exception e) {
+                MessageBox.Show(e.Message);
             }
         }
-      
+        private void GetDataFilePath() {
+            OpenFileDialog openFileDialog = new OpenFileDialog {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
+                Filter = Resources.ExcelFilter,
+                FilterIndex = 1,
+                RestoreDirectory = true
+            };
+
+            if (openFileDialog.ShowDialog() != DialogResult.OK)
+                return;
+            try {
+                Stream myStream = openFileDialog.OpenFile();
+                using (myStream) {
+                }
+                txtDataFile.Text = openFileDialog.FileName;
+            }
+            catch (Exception e) {
+                MessageBox.Show(e.Message);
+            }
+        }
         private void ClearAllText()
         {
             FieldInfo[] infos = GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
@@ -83,7 +100,7 @@ namespace GropUpEmails
         {
             try
             {
-                txtSender.Text = txtSender.Text.TrimEnd("@163.com".ToCharArray()) + @"@qq.com";
+                txtSender.Text = txtSender.Text.TrimEnd("@qq.com".ToCharArray()) + @"@qq.com";
                 SmtpClient client = new SmtpClient
                 {
                     Host = "smtp.qq.com",
@@ -112,37 +129,29 @@ namespace GropUpEmails
         }
         protected  ArrayList GetAdressOfRecievers(string xlsFilePath)
         {
-            try
-            {
-                string strConn = "Provider=Microsoft.Ace.OleDb.12.0;Data Source=Server.MapPath(\"" + xlsFilePath + "\");Extended Properties='Excel 12.0; HDR=No; IMEX=1'";
-                string strComm = "SELECT * FROM [Sheet1$]";
-                OleDbConnection myConn = new OleDbConnection(strConn);
-                myConn.Open();
-                OleDbDataAdapter myAdp = new OleDbDataAdapter(strComm, strConn);
-                DataSet ds = new DataSet();
-                myAdp.Fill(ds);
-                myConn.Close();
-                DataTable table = ds.Tables[0];
+            string strConn = $"Provider=Microsoft.Ace.OleDb.12.0;Data Source={xlsFilePath};Extended Properties='Excel 12.0; HDR=Yes; IMEX=1'";
+            string strComm = "SELECT * FROM [Sheet1$]";
+            OleDbConnection myConn = new OleDbConnection(strConn);
+            OleDbDataAdapter myAdp = new OleDbDataAdapter(strComm, strConn);
+            DataSet ds = new DataSet();
+            myAdp.Fill(ds);
+            myConn.Close();
+            
+            DataTable table = ds.Tables[0];
                 
-                ArrayList email = new ArrayList();
-                foreach (DataRow row in table.Rows)
+            ArrayList email = new ArrayList();
+            foreach (DataRow row in table.Rows)
+            {
+                for (int i = 0; i < table.Columns.Count;i++ )
                 {
-                    for (int i = 0; i < table.Columns.Count;i++ )
+                    String strEmail = Convert.ToString(row[i]);
+                    if(strEmail .Contains('@')&&strEmail.Contains ('.'))
                     {
-                        String strEmail = Convert.ToString(row[i]);
-                        if(strEmail .Contains('@')&&strEmail.Contains ('.'))
-                        {
-                            email.Add(strEmail);
-                        }
+                        email.Add(strEmail);
                     }
                 }
-                return email;
             }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-                throw;
-            }
+            return email;
         }
     }
 }
