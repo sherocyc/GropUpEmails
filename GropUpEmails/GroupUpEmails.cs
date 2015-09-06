@@ -122,7 +122,6 @@ namespace GropUpEmails
                 DataSet ds = new DataSet();
                 myAdp.Fill(ds);
                 myConn.Close();
-                string abc = "abv" + xlsFilePath;
                 txtTitle.Text = Convert.ToString(ds.Tables[0].Rows[0][0]);
 
                 foreach (DataColumn dc in ds.Tables[0].Columns)

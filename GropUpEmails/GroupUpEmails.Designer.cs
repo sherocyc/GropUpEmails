@@ -104,6 +104,7 @@ namespace GropUpEmails
             this.txtRecieverFile.Location = new System.Drawing.Point(231, 69);
             this.txtRecieverFile.Margin = new System.Windows.Forms.Padding(4);
             this.txtRecieverFile.Name = "txtRecieverFile";
+            this.txtRecieverFile.ReadOnly = true;
             this.txtRecieverFile.Size = new System.Drawing.Size(280, 25);
             this.txtRecieverFile.TabIndex = 5;
             // 
@@ -115,7 +116,7 @@ namespace GropUpEmails
             this.lblContent.Name = "lblContent";
             this.lblContent.Size = new System.Drawing.Size(82, 15);
             this.lblContent.TabIndex = 6;
-            this.lblContent.Text = "邮件内容：";
+            this.lblContent.Text = "内容预览：";
             // 
             // lblTitle
             // 
@@ -125,7 +126,7 @@ namespace GropUpEmails
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(82, 15);
             this.lblTitle.TabIndex = 8;
-            this.lblTitle.Text = "邮件标题：";
+            this.lblTitle.Text = "标题预览：";
             // 
             // txtContent
             // 
@@ -133,6 +134,7 @@ namespace GropUpEmails
             this.txtContent.Margin = new System.Windows.Forms.Padding(4);
             this.txtContent.Multiline = true;
             this.txtContent.Name = "txtContent";
+            this.txtContent.ReadOnly = true;
             this.txtContent.Size = new System.Drawing.Size(568, 169);
             this.txtContent.TabIndex = 9;
             // 
@@ -141,6 +143,7 @@ namespace GropUpEmails
             this.txtTitle.Location = new System.Drawing.Point(111, 135);
             this.txtTitle.Margin = new System.Windows.Forms.Padding(4);
             this.txtTitle.Name = "txtTitle";
+            this.txtTitle.ReadOnly = true;
             this.txtTitle.Size = new System.Drawing.Size(400, 25);
             this.txtTitle.TabIndex = 10;
             // 
@@ -197,6 +200,7 @@ namespace GropUpEmails
             this.txtDataFile.Location = new System.Drawing.Point(231, 102);
             this.txtDataFile.Margin = new System.Windows.Forms.Padding(4);
             this.txtDataFile.Name = "txtDataFile";
+            this.txtDataFile.ReadOnly = true;
             this.txtDataFile.Size = new System.Drawing.Size(280, 25);
             this.txtDataFile.TabIndex = 18;
             // 
