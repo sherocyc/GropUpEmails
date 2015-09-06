@@ -46,13 +46,13 @@ namespace GropUpEmails
             this.lblPwd = new System.Windows.Forms.Label();
             this.txtPwd = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtDataFile = new System.Windows.Forms.TextBox();
             this.btnData = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.recieverGridView = new System.Windows.Forms.DataGridView();
             this.regenarateBtn = new System.Windows.Forms.Button();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.recieverGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -71,7 +71,7 @@ namespace GropUpEmails
             this.txtSender.Location = new System.Drawing.Point(231, 10);
             this.txtSender.Margin = new System.Windows.Forms.Padding(4);
             this.txtSender.Name = "txtSender";
-            this.txtSender.Size = new System.Drawing.Size(280, 25);
+            this.txtSender.Size = new System.Drawing.Size(425, 25);
             this.txtSender.TabIndex = 2;
             // 
             // lblReciever
@@ -92,7 +92,7 @@ namespace GropUpEmails
             // 
             // btnReciever
             // 
-            this.btnReciever.Location = new System.Drawing.Point(520, 69);
+            this.btnReciever.Location = new System.Drawing.Point(664, 69);
             this.btnReciever.Margin = new System.Windows.Forms.Padding(4);
             this.btnReciever.Name = "btnReciever";
             this.btnReciever.Size = new System.Drawing.Size(160, 25);
@@ -106,7 +106,7 @@ namespace GropUpEmails
             this.txtRecieverFile.Margin = new System.Windows.Forms.Padding(4);
             this.txtRecieverFile.Name = "txtRecieverFile";
             this.txtRecieverFile.ReadOnly = true;
-            this.txtRecieverFile.Size = new System.Drawing.Size(280, 25);
+            this.txtRecieverFile.Size = new System.Drawing.Size(425, 25);
             this.txtRecieverFile.TabIndex = 5;
             // 
             // lblContent
@@ -131,12 +131,12 @@ namespace GropUpEmails
             // 
             // txtContent
             // 
-            this.txtContent.Location = new System.Drawing.Point(111, 162);
+            this.txtContent.Location = new System.Drawing.Point(111, 168);
             this.txtContent.Margin = new System.Windows.Forms.Padding(4);
             this.txtContent.Multiline = true;
             this.txtContent.Name = "txtContent";
             this.txtContent.ReadOnly = true;
-            this.txtContent.Size = new System.Drawing.Size(568, 169);
+            this.txtContent.Size = new System.Drawing.Size(714, 395);
             this.txtContent.TabIndex = 9;
             // 
             // txtTitle
@@ -145,7 +145,7 @@ namespace GropUpEmails
             this.txtTitle.Margin = new System.Windows.Forms.Padding(4);
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.ReadOnly = true;
-            this.txtTitle.Size = new System.Drawing.Size(400, 25);
+            this.txtTitle.Size = new System.Drawing.Size(545, 25);
             this.txtTitle.TabIndex = 10;
             // 
             // lblPwd
@@ -164,12 +164,12 @@ namespace GropUpEmails
             this.txtPwd.Margin = new System.Windows.Forms.Padding(4);
             this.txtPwd.Name = "txtPwd";
             this.txtPwd.PasswordChar = '*';
-            this.txtPwd.Size = new System.Drawing.Size(280, 25);
+            this.txtPwd.Size = new System.Drawing.Size(425, 25);
             this.txtPwd.TabIndex = 12;
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(457, 340);
+            this.btnOK.Location = new System.Drawing.Point(721, 571);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(100, 29);
@@ -177,20 +177,10 @@ namespace GropUpEmails
             this.btnOK.Text = "确定发送";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
-            // btnCancel
-            // 
-            this.btnCancel.Location = new System.Drawing.Point(565, 340);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(100, 29);
-            this.btnCancel.TabIndex = 14;
-            this.btnCancel.Text = "取消重填";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(519, 14);
+            this.label1.Location = new System.Drawing.Point(661, 14);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(87, 15);
             this.label1.TabIndex = 15;
@@ -202,12 +192,12 @@ namespace GropUpEmails
             this.txtDataFile.Margin = new System.Windows.Forms.Padding(4);
             this.txtDataFile.Name = "txtDataFile";
             this.txtDataFile.ReadOnly = true;
-            this.txtDataFile.Size = new System.Drawing.Size(280, 25);
+            this.txtDataFile.Size = new System.Drawing.Size(425, 25);
             this.txtDataFile.TabIndex = 18;
             // 
             // btnData
             // 
-            this.btnData.Location = new System.Drawing.Point(520, 102);
+            this.btnData.Location = new System.Drawing.Point(664, 102);
             this.btnData.Margin = new System.Windows.Forms.Padding(4);
             this.btnData.Name = "btnData";
             this.btnData.Size = new System.Drawing.Size(160, 25);
@@ -228,17 +218,17 @@ namespace GropUpEmails
             // recieverGridView
             // 
             this.recieverGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.recieverGridView.Location = new System.Drawing.Point(701, 14);
+            this.recieverGridView.Location = new System.Drawing.Point(843, 14);
             this.recieverGridView.MultiSelect = false;
             this.recieverGridView.Name = "recieverGridView";
             this.recieverGridView.RowTemplate.Height = 27;
             this.recieverGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.recieverGridView.Size = new System.Drawing.Size(238, 317);
+            this.recieverGridView.Size = new System.Drawing.Size(313, 587);
             this.recieverGridView.TabIndex = 19;
             // 
             // regenarateBtn
             // 
-            this.regenarateBtn.Location = new System.Drawing.Point(520, 133);
+            this.regenarateBtn.Location = new System.Drawing.Point(664, 135);
             this.regenarateBtn.Margin = new System.Windows.Forms.Padding(4);
             this.regenarateBtn.Name = "regenarateBtn";
             this.regenarateBtn.Size = new System.Drawing.Size(160, 25);
@@ -246,18 +236,25 @@ namespace GropUpEmails
             this.regenarateBtn.Text = "重新生成预览";
             this.regenarateBtn.UseVisualStyleBackColor = true;
             // 
+            // progressBar
+            // 
+            this.progressBar.Location = new System.Drawing.Point(111, 575);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(590, 23);
+            this.progressBar.TabIndex = 21;
+            // 
             // GroupUpEmails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(951, 392);
+            this.ClientSize = new System.Drawing.Size(1168, 613);
+            this.Controls.Add(this.progressBar);
             this.Controls.Add(this.regenarateBtn);
             this.Controls.Add(this.recieverGridView);
             this.Controls.Add(this.txtDataFile);
             this.Controls.Add(this.btnData);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtPwd);
             this.Controls.Add(this.lblPwd);
@@ -297,13 +294,13 @@ namespace GropUpEmails
         private Label lblPwd;
         private TextBox txtPwd;
         private Button btnOK;
-        private Button btnCancel;
         private Label label1;
         private TextBox txtDataFile;
         private Button btnData;
         private Label label2;
         private DataGridView recieverGridView;
         private Button regenarateBtn;
+        private ProgressBar progressBar;
     }
 }
 
