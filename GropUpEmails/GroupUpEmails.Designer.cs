@@ -51,6 +51,8 @@ namespace GropUpEmails
             this.txtDataFile = new System.Windows.Forms.TextBox();
             this.btnData = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.recieverGridView = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.recieverGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // lblSender
@@ -218,11 +220,21 @@ namespace GropUpEmails
             this.label2.TabIndex = 16;
             this.label2.Text = "内容数据（*.xlsx）：";
             // 
+            // recieverGridView
+            // 
+            this.recieverGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.recieverGridView.Location = new System.Drawing.Point(701, 14);
+            this.recieverGridView.Name = "recieverGridView";
+            this.recieverGridView.RowTemplate.Height = 27;
+            this.recieverGridView.Size = new System.Drawing.Size(238, 317);
+            this.recieverGridView.TabIndex = 19;
+            // 
             // GroupUpEmails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(719, 392);
+            this.ClientSize = new System.Drawing.Size(951, 392);
+            this.Controls.Add(this.recieverGridView);
             this.Controls.Add(this.txtDataFile);
             this.Controls.Add(this.btnData);
             this.Controls.Add(this.label2);
@@ -246,6 +258,7 @@ namespace GropUpEmails
             this.Name = "GroupUpEmails";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "吕陶丽群发邮件";
+            ((System.ComponentModel.ISupportInitialize)(this.recieverGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -271,6 +284,7 @@ namespace GropUpEmails
         private TextBox txtDataFile;
         private Button btnData;
         private Label label2;
+        private DataGridView recieverGridView;
     }
 }
 

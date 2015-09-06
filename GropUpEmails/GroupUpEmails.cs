@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.IO;
@@ -13,16 +14,20 @@ using GropUpEmails.Properties;
 
 namespace GropUpEmails
 {
-    public partial class GroupUpEmails : Form
+    public partial class GroupUpEmails : Form 
     {
+        readonly List<string> _recieverIdList;
         public GroupUpEmails()
         {
+            _recieverIdList = new List<string>();
             InitializeComponent();
             btnReciever.Click += (sender, e) =>{
                 GetRecieverFilePath();
+                GetRecievers(txtRecieverFile.Text);
             };
             btnData.Click += (sender, e) => {
                 GetDataFilePath();
+                GenerateDataPreview(txtDataFile.Text);
             };
             btnCancel.Click += (sender, e) => {
                 ClearAllText();
@@ -43,6 +48,28 @@ namespace GropUpEmails
             };
         }
         private void GetContent() {
+
+        }
+        private void GetRecievers(string xlsFilePath) {
+            try
+            {
+                string strConn = $"Provider=Microsoft.Ace.OleDb.12.0;Data Source={xlsFilePath};Extended Properties='Excel 12.0; HDR=Yes; IMEX=1'";
+                string strComm = "SELECT 教师姓名,证件号,邮箱 FROM [Sheet1$]";
+                OleDbConnection myConn = new OleDbConnection(strConn);
+                OleDbDataAdapter myAdp = new OleDbDataAdapter(strComm, strConn);
+                DataSet ds = new DataSet();
+                myAdp.Fill(ds);
+                myConn.Close();
+                recieverGridView.DataSource = ds.Tables[0];
+                foreach (DataRow row in ds.Tables[0].Rows) {
+                    _recieverIdList.Add(Convert.ToString(row[1]));
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                throw;
+            }
 
         }
         private void GetRecieverFilePath() {
@@ -83,6 +110,37 @@ namespace GropUpEmails
             catch (Exception e) {
                 MessageBox.Show(e.Message);
             }
+        }
+        private void GenerateDataPreview(string xlsFilePath)
+        {
+            try
+            {
+                string strConn = $"Provider=Microsoft.Ace.OleDb.12.0;Data Source={xlsFilePath};Extended Properties='Excel 12.0; HDR=Yes; IMEX=1'";
+                string strComm = $"SELECT 教师姓名,教师证件号,年级,科目,学生姓名,班主任,教学点 FROM [Sheet1$] WHERE 教师证件号 = \"{_recieverIdList[0]}\" ";
+                OleDbConnection myConn = new OleDbConnection(strConn);
+                OleDbDataAdapter myAdp = new OleDbDataAdapter(strComm, strConn);
+                DataSet ds = new DataSet();
+                myAdp.Fill(ds);
+                myConn.Close();
+                string abc = "abv" + xlsFilePath;
+                txtTitle.Text = Convert.ToString(ds.Tables[0].Rows[0][0]);
+
+                foreach (DataColumn dc in ds.Tables[0].Columns)
+                    txtContent.Text += dc.ColumnName + "\t";
+                txtContent.Text += "\r\n";
+
+                foreach (DataRow row in ds.Tables[0].Rows){
+                    for (int i = 0; i < ds.Tables[0].Columns.Count; i++)
+                        txtContent.Text += row[i] + "\t";
+                    txtContent.Text += "\r\n";
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                throw;
+            }
+ 
         }
         private void ClearAllText()
         {
