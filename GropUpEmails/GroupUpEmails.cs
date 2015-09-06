@@ -35,6 +35,9 @@ namespace GropUpEmails
             btnOK.Click += (sender, e) => {
                 GetMailSend(GetAdressOfRecievers(txtRecieverFile.Text));
             };
+            regenarateBtn.Click += (sender, e) => {
+                GenerateDataPreview(txtDataFile.Text);
+            };
             FormClosing += (sender, e) => {
                 if (MessageBox.Show(Resources.ComfirmQuit, Resources.Quit, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                     e.Cancel = true;
@@ -46,6 +49,7 @@ namespace GropUpEmails
                     e.Cancel = true;
                 }
             };
+            
         }
         private void GetContent() {
 
@@ -61,6 +65,7 @@ namespace GropUpEmails
                 myAdp.Fill(ds);
                 myConn.Close();
                 recieverGridView.DataSource = ds.Tables[0];
+                recieverGridView.CurrentCell = recieverGridView.Rows[0].Cells[0];
                 foreach (DataRow row in ds.Tables[0].Rows) {
                     _recieverIdList.Add(Convert.ToString(row[1]));
                 }
@@ -113,10 +118,11 @@ namespace GropUpEmails
         }
         private void GenerateDataPreview(string xlsFilePath)
         {
+            txtContent.Clear();
             try
             {
                 string strConn = $"Provider=Microsoft.Ace.OleDb.12.0;Data Source={xlsFilePath};Extended Properties='Excel 12.0; HDR=Yes; IMEX=1'";
-                string strComm = $"SELECT 教师姓名,教师证件号,年级,科目,学生姓名,班主任,教学点 FROM [Sheet1$] WHERE 教师证件号 = \"{_recieverIdList[0]}\" ";
+                string strComm = $"SELECT 教师姓名,教师证件号,年级,科目,学生姓名,班主任,教学点 FROM [Sheet1$] WHERE 教师证件号 = \"{recieverGridView.SelectedRows[0].Cells[1].Value}\" ";
                 OleDbConnection myConn = new OleDbConnection(strConn);
                 OleDbDataAdapter myAdp = new OleDbDataAdapter(strComm, strConn);
                 DataSet ds = new DataSet();
@@ -137,7 +143,6 @@ namespace GropUpEmails
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
-                throw;
             }
  
         }

@@ -52,6 +52,7 @@ namespace GropUpEmails
             this.btnData = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.recieverGridView = new System.Windows.Forms.DataGridView();
+            this.regenarateBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.recieverGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -228,16 +229,29 @@ namespace GropUpEmails
             // 
             this.recieverGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.recieverGridView.Location = new System.Drawing.Point(701, 14);
+            this.recieverGridView.MultiSelect = false;
             this.recieverGridView.Name = "recieverGridView";
             this.recieverGridView.RowTemplate.Height = 27;
+            this.recieverGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.recieverGridView.Size = new System.Drawing.Size(238, 317);
             this.recieverGridView.TabIndex = 19;
+            // 
+            // regenarateBtn
+            // 
+            this.regenarateBtn.Location = new System.Drawing.Point(520, 133);
+            this.regenarateBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.regenarateBtn.Name = "regenarateBtn";
+            this.regenarateBtn.Size = new System.Drawing.Size(160, 25);
+            this.regenarateBtn.TabIndex = 20;
+            this.regenarateBtn.Text = "重新生成预览";
+            this.regenarateBtn.UseVisualStyleBackColor = true;
             // 
             // GroupUpEmails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(951, 392);
+            this.Controls.Add(this.regenarateBtn);
             this.Controls.Add(this.recieverGridView);
             this.Controls.Add(this.txtDataFile);
             this.Controls.Add(this.btnData);
@@ -289,6 +303,7 @@ namespace GropUpEmails
         private Button btnData;
         private Label label2;
         private DataGridView recieverGridView;
+        private Button regenarateBtn;
     }
 }
 
