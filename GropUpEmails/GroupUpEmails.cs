@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using GropUpEmails.Properties;
@@ -50,7 +47,6 @@ namespace GropUpEmails
             try
             {
                 progressBar.Value = 0;
-
                 string strConn = $"Provider=Microsoft.Ace.OleDb.12.0;Data Source={xlsFilePath};Extended Properties='Excel 12.0; HDR=Yes; IMEX=1'";
                 string strComm = "SELECT 教师姓名,证件号,邮箱 FROM [Sheet1$]";
                 OleDbConnection myConn = new OleDbConnection(strConn);
@@ -147,9 +143,9 @@ namespace GropUpEmails
                     for (int i = 0; i < ds.Tables[0].Columns.Count; i++)
                         txtContent.Text += row[i].ToString().PadRight(10);
                     txtContent.Text += "\r\n";
-
-                progressBar.Value = 100;
                 }
+                progressBar.Value = 100;
+
             }
             catch (Exception e)
             {
