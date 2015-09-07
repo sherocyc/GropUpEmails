@@ -70,6 +70,16 @@ namespace GropUpEmails.Properties {
         }
         
         /// <summary>
+        ///   查找类似 
+        /// 的本地化字符串。
+        /// </summary>
+        internal static string Endline {
+            get {
+                return ResourceManager.GetString("Endline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.* 的本地化字符串。
         /// </summary>
         internal static string ExcelFilter {

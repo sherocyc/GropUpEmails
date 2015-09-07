@@ -126,4 +126,8 @@
   <data name="ExcelFilter" xml:space="preserve">
     <value>Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*</value>
   </data>
+  <data name="Endline" xml:space="preserve">
+    <value>
+</value>
+  </data>
 </root>

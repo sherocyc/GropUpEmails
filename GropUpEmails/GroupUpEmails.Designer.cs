@@ -135,7 +135,6 @@ namespace GropUpEmails
             this.txtContent.Margin = new System.Windows.Forms.Padding(4);
             this.txtContent.Multiline = true;
             this.txtContent.Name = "txtContent";
-            this.txtContent.ReadOnly = true;
             this.txtContent.Size = new System.Drawing.Size(714, 395);
             this.txtContent.TabIndex = 9;
             // 
