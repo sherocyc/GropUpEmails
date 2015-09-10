@@ -41,7 +41,6 @@ namespace GropUpEmails
             this.txtRecieverFile = new System.Windows.Forms.TextBox();
             this.lblContent = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
-            this.txtContent = new System.Windows.Forms.TextBox();
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.lblPwd = new System.Windows.Forms.Label();
             this.txtPwd = new System.Windows.Forms.TextBox();
@@ -53,6 +52,7 @@ namespace GropUpEmails
             this.recieverGridView = new System.Windows.Forms.DataGridView();
             this.regenarateBtn = new System.Windows.Forms.Button();
             this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.contentEditor = new CNPOPSOFT.Controls.HtmlEditor();
             ((System.ComponentModel.ISupportInitialize)(this.recieverGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -128,15 +128,6 @@ namespace GropUpEmails
             this.lblTitle.Size = new System.Drawing.Size(82, 15);
             this.lblTitle.TabIndex = 8;
             this.lblTitle.Text = "标题预览：";
-            // 
-            // txtContent
-            // 
-            this.txtContent.Location = new System.Drawing.Point(111, 168);
-            this.txtContent.Margin = new System.Windows.Forms.Padding(4);
-            this.txtContent.Multiline = true;
-            this.txtContent.Name = "txtContent";
-            this.txtContent.Size = new System.Drawing.Size(714, 395);
-            this.txtContent.TabIndex = 9;
             // 
             // txtTitle
             // 
@@ -242,11 +233,19 @@ namespace GropUpEmails
             this.progressBar.Size = new System.Drawing.Size(590, 23);
             this.progressBar.TabIndex = 21;
             // 
+            // contentEditor
+            // 
+            this.contentEditor.Location = new System.Drawing.Point(111, 166);
+            this.contentEditor.Name = "contentEditor";
+            this.contentEditor.Size = new System.Drawing.Size(713, 398);
+            this.contentEditor.TabIndex = 22;
+            // 
             // GroupUpEmails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1168, 613);
+            this.Controls.Add(this.contentEditor);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.regenarateBtn);
             this.Controls.Add(this.recieverGridView);
@@ -258,7 +257,6 @@ namespace GropUpEmails
             this.Controls.Add(this.txtPwd);
             this.Controls.Add(this.lblPwd);
             this.Controls.Add(this.txtTitle);
-            this.Controls.Add(this.txtContent);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.lblContent);
             this.Controls.Add(this.txtRecieverFile);
@@ -288,7 +286,6 @@ namespace GropUpEmails
         private TextBox txtRecieverFile;
         private Label lblContent;
         private Label lblTitle;
-        private TextBox txtContent;
         private TextBox txtTitle;
         private Label lblPwd;
         private TextBox txtPwd;
@@ -300,6 +297,7 @@ namespace GropUpEmails
         private DataGridView recieverGridView;
         private Button regenarateBtn;
         private ProgressBar progressBar;
+        private CNPOPSOFT.Controls.HtmlEditor contentEditor;
     }
 }
 

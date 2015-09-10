@@ -3,7 +3,6 @@ using System.Data;
 using System.Data.OleDb;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Reflection;
@@ -17,8 +16,16 @@ using DataTable = System.Data.DataTable;
 
 namespace GropUpEmails
 {
-    public partial class GroupUpEmails : Form 
+    public partial class GroupUpEmails : Form
     {
+        private const string STYLE_TITLE =
+            "HEIGHT: 23.25pt; " +
+            "WIDTH: 92pt; " +
+            "BORDER-TOP: windowtext 0.5pt solid;" +
+            "BORDER-RIGHT: windowtext 0.5pt solid; " +
+            "BORDER-BOTTOM: windowtext 0.5pt solid; " +
+            "BORDER-LEFT: windowtext 0.5pt solid; " +
+            "BACKGROUND-COLOR: yellow";
         public GroupUpEmails()
         {
             InitializeComponent();
@@ -32,7 +39,7 @@ namespace GropUpEmails
             };
 
             btnOK.Click += (sender, e) => {
-                GetMailSend();
+                GetMailSend(recieverGridView.SelectedRows[0].Cells[3].Value.ToString());
                 //GetAndWrite(txtDataFile.Text, Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)+"\\123.xml");
             };
             regenarateBtn.Click += (sender, e) => {
@@ -128,42 +135,31 @@ namespace GropUpEmails
         }
         private void GenerateDataPreview(string xlsFilePath)
         {
-            txtContent.Clear();
+            contentEditor.Text = "";
             progressBar.Value = 0;
             try
             {
                 progressBar.Value = 1;
                 string strConn = $"Provider=Microsoft.Ace.OleDb.12.0;Data Source={xlsFilePath};Extended Properties='Excel 12.0; HDR=Yes; IMEX=1'";
-                string strComm = $"SELECT 教师姓名,教师证件号,年级,科目,实际单价,课时,学生姓名,班主任,教学点,路补,大单补助差价 FROM [Sheet1$] WHERE 教师证件号 = \"{recieverGridView.SelectedRows[0].Cells[2].Value}\" ";
+                string strComm = $"SELECT 教师姓名,教师证件号,年级,科目,实际单价,课时,学生姓名,班主任,教学点 FROM [Sheet1$] WHERE 教师证件号 = \"{recieverGridView.SelectedRows[0].Cells[2].Value}\" ";
                 OleDbConnection myConn = new OleDbConnection(strConn);
                 OleDbDataAdapter myAdp = new OleDbDataAdapter(strComm, strConn);
                 DataSet ds = new DataSet();
                 myAdp.Fill(ds);
                 myConn.Close();
-                string title;
-                string content;
-                GenerateContent(ds.Tables[0], out title, out content);
-                txtTitle.Text = title;
-                txtContent.Text = content;
+
+                txtTitle.Text = Convert.ToString(ds.Tables[0].Rows[0][0]);
+                contentEditor.Text = GenerateContent(ds.Tables[0]).OuterXml;
+
                 progressBar.Value = 100;
+
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
         }
-        private void GenerateContent(DataTable table,out string title, out string content)
-        {
-            title = Convert.ToString(table.Rows[0][0]);
-            progressBar.Value = 50;
-            content = table.Columns.Cast<DataColumn>().Aggregate("", (current, dc) => current + dc.ColumnName.PadRight(10));
-            txtContent.Text += Resources.Endline;
-            foreach (DataRow row in table.Rows) {
-                for (int i = 0; i < table.Columns.Count; i++)
-                    content += row[i].ToString().PadRight(10);
-                content += Resources.Endline;
-            }
-        }
+
         private void SendTo(SmtpClient client, string recieverEmail, string title, string content) {
             try
             {
@@ -180,7 +176,7 @@ namespace GropUpEmails
                 MessageBox.Show(e.Message);
             }
         }
-        protected void GetMailSend()
+        protected void GetMailSend(string reciever)
         {
             try
             {
@@ -191,12 +187,104 @@ namespace GropUpEmails
                     Credentials = new NetworkCredential(txtSender.Text, txtPwd.Text),
                     DeliveryMethod = SmtpDeliveryMethod.Network
                 };
-                SendTo(client,"228534423@qq.com",txtTitle.Text,txtContent.Text);
+                SendTo(client,reciever,txtTitle.Text,contentEditor.Text);
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
+        }
+        private XmlAttribute createAttribute(XmlDocument doc, string name, string value)
+        {
+            XmlAttribute attr = doc.CreateAttribute(name);
+            attr.Value = value;
+            return attr;
+        }
+        private XmlDocument GenerateContent(DataTable data) {
+            try
+            {
+                XmlDocument xml = new XmlDocument();
+                XmlNode div = xml.CreateElement("div");
+                XmlNode table = xml.CreateElement("table");
+                table.Attributes.Append(createAttribute(xml,"style", "WIDTH: 919pt; BORDER-COLLAPSE: collapse"));
+                table.Attributes.Append(createAttribute(xml, "cellspacing", "0"));
+                table.Attributes.Append(createAttribute(xml, "cellpadding", "0"));
+                table.Attributes.Append(createAttribute(xml, "width", "1225"));
+                table.Attributes.Append(createAttribute(xml, "border", "0"));
+                XmlNode colgroup = xml.CreateElement("colgroup");
+                foreach (var column in data.Columns)
+                {
+                    XmlNode col = xml.CreateElement("col");
+                    col.Attributes.Append(createAttribute(xml, "style", "WIDTH: 92pt; mso-width-source: userset; mso-width-alt: 4380"));
+                    col.Attributes.Append(createAttribute(xml, "width", "123"));
+                    colgroup.AppendChild(col);
+                }
+                XmlNode tbody = xml.CreateElement("tbody");
+                
+                {
+                    XmlNode tr = xml.CreateElement("tr");
+                    tr.Attributes.Append(createAttribute(xml, "style", "HEIGHT: 23.25pt; mso-height-source: userset"));
+                    tr.Attributes.Append(createAttribute(xml, "height", "30"));
+                    tbody.AppendChild(tr);
+                    foreach (var column in data.Columns) {
+                        XmlNode td = xml.CreateElement("td");
+                        td.Attributes.Append(createAttribute(xml, "class", "xl23212"));
+                        td.Attributes.Append(createAttribute(xml, "style", STYLE_TITLE));
+                        td.Attributes.Append(createAttribute(xml, "height", "30"));
+                        td.Attributes.Append(createAttribute(xml, "width", "123"));
+                        XmlNode strong = xml.CreateElement("strong");
+                        XmlNode font = xml.CreateElement("font");
+                        font.Attributes.Append(createAttribute(xml, "size", "2"));
+                        font.Attributes.Append(createAttribute(xml, "face", "宋体"));
+                        font.InnerText = column.ToString();
+                        strong.AppendChild(font);
+                        td.AppendChild(strong);
+                        tbody.AppendChild(td);
+                    }
+                }
+
+                foreach (DataRow row in data.Rows)
+                {
+                    XmlNode tr = xml.CreateElement("tr");
+                    tr.Attributes.Append(createAttribute(xml, "style", "HEIGHT: 12pt"));
+                    tr.Attributes.Append(createAttribute(xml, "height", "16"));
+                    tbody.AppendChild(tr);
+                    for(int i=0;i<data.Columns.Count;i++)
+                    {
+                        XmlNode td = xml.CreateElement("td");
+                        td.Attributes.Append(createAttribute(xml, "class", "xl23212"));
+                        td.Attributes.Append(createAttribute(xml, "style", "BORDER-TOP: windowtext; HEIGHT: 12pt; BORDER-RIGHT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid; BORDER-LEFT: windowtext 0.5pt solid; BACKGROUND-COLOR: transparent"));
+                        td.Attributes.Append(createAttribute(xml, "height", "16"));
+                        td.Attributes.Append(createAttribute(xml, "width", "123"));
+                        XmlNode font = xml.CreateElement("font");
+                        font.Attributes.Append(createAttribute(xml, "size", "2"));
+                        font.Attributes.Append(createAttribute(xml, "face", "宋体"));
+                        font.InnerText = row[i].ToString();
+                        td.AppendChild(font);
+                        tbody.AppendChild(td);
+                    }
+                }
+                table.AppendChild(tbody);
+                table.AppendChild(colgroup);
+                div.AppendChild(table);
+                xml.AppendChild(div);
+                return xml;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                throw;
+            }
+
+
+            /*
+            content = table.Columns.Cast<DataColumn>().Aggregate("", (current, dc) => current + dc.ColumnName.PadRight(10));
+            txtContent.Text += Resources.Endline;
+            foreach (DataRow row in table.Rows) {
+                for (int i = 0; i < table.Columns.Count; i++)
+                    content += row[i].ToString().PadRight(10);
+                content += Resources.Endline;
+            }*/
         }
 
         public void GetAndWrite(string strFileName, string strDesPath) {
@@ -210,12 +298,13 @@ namespace GropUpEmails
             int bgnRow = (worksheet.UsedRange.Cells.Row > 1) ? worksheet.UsedRange.Cells.Row - 1 : worksheet.UsedRange.Cells.Row;
             int bgnColumn = (worksheet.UsedRange.Cells.Column > 1) ? worksheet.UsedRange.Cells.Column - 1 : worksheet.UsedRange.Cells.Column;
             //设置保存xml文件
-            string strFile = strDesPath.Substring(strDesPath.LastIndexOf("\\") + 1);
-            strFile = strFile.Remove(strFile.IndexOf("."), 4);
+            string strFile = strDesPath.Substring(strDesPath.LastIndexOf("\\", StringComparison.Ordinal) + 1);
+            strFile = strFile.Remove(strFile.IndexOf(".", StringComparison.Ordinal), 4);
 
-            string strPath = strDesPath.Substring(0, strDesPath.LastIndexOf("\\"));
-            string FileName = strPath + "\\" + strFile + ".xml";
-            XmlTextWriter writexml = new XmlTextWriter(FileName, Encoding.Default);
+            string strPath = strDesPath.Substring(0, strDesPath.LastIndexOf("\\", StringComparison.Ordinal));
+            string fileName = strPath + "\\" + strFile + ".xml";
+            
+            XmlTextWriter writexml = new XmlTextWriter(fileName, Encoding.Default);
             writexml.Formatting = Formatting.Indented;
             writexml.WriteStartDocument();
             writexml.WriteStartElement("workbook");
