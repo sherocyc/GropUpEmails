@@ -127,8 +127,8 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\HTMLTextBox\HtmlEditor.csproj">
-      <Project>{DA0CBCF1-D625-491C-AB68-614FCC9E0D46}</Project>
+    <ProjectReference Include="..\HTMLTextBox\HtmlEditor.csproj">
+      <Project>{da0cbcf1-d625-491c-ab68-614fcc9e0d46}</Project>
       <Name>HtmlEditor</Name>
     </ProjectReference>
   </ItemGroup>

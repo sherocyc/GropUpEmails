@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GropUpEmails", "GropUpEmails\GropUpEmails.csproj", "{33854B89-BA03-43CA-A6C2-BA62A0630C51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlEditor", "..\HTMLTextBox\HtmlEditor.csproj", "{DA0CBCF1-D625-491C-AB68-614FCC9E0D46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlEditor", "HTMLTextBox\HtmlEditor.csproj", "{DA0CBCF1-D625-491C-AB68-614FCC9E0D46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
