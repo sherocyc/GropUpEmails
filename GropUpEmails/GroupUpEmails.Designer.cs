@@ -172,9 +172,9 @@ namespace GropUpEmails
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(661, 14);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(87, 15);
+            this.label1.Size = new System.Drawing.Size(63, 15);
             this.label1.TabIndex = 15;
-            this.label1.Text = "@juren.com";
+            this.label1.Text = "@qq.com";
             // 
             // txtDataFile
             // 

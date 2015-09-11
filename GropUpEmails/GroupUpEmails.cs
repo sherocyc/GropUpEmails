@@ -5,12 +5,9 @@ using System.Data.OleDb;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
-using System.Net.NetworkInformation;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
-using CNPOPSOFT.Controls;
 using GropUpEmails.Properties;
 using Application = System.Windows.Forms.Application;
 using DataTable = System.Data.DataTable;
@@ -95,14 +92,14 @@ namespace GropUpEmails
                 myConn.Close();
                 progressBar.Value = 50;
 
-                DataGridViewCheckBoxColumn Column1 = new DataGridViewCheckBoxColumn
+                DataGridViewCheckBoxColumn column1 = new DataGridViewCheckBoxColumn
                 {
                     HeaderText = "选择",
                     Name = "选择",
                     ReadOnly = false
                 };
                 recieverGridView.Columns.Clear();
-                recieverGridView.Columns.Add(Column1);
+                recieverGridView.Columns.Add(column1);
                 recieverGridView.DataSource = ds.Tables[0];
                 recieverGridView.CurrentCell = recieverGridView.Rows[0].Cells[0];
                 recieverGridView.Columns[0].Width = 30;
@@ -181,7 +178,7 @@ namespace GropUpEmails
                     _calculateTable = ds.Tables[0];
                     myConn.Close();
                 }
-                catch (System.Exception ex) {
+                catch (Exception ex) {
                     MessageBox.Show(ex.Message);
                 }
             };
