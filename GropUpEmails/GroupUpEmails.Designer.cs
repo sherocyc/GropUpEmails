@@ -52,6 +52,7 @@ namespace GropUpEmails
             this.regenarateBtn = new System.Windows.Forms.Button();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.contentEditor = new CNPOPSOFT.Controls.HtmlEditor();
+            this.status = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.recieverGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -229,9 +230,9 @@ namespace GropUpEmails
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(111, 575);
+            this.progressBar.Location = new System.Drawing.Point(166, 575);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(590, 23);
+            this.progressBar.Size = new System.Drawing.Size(535, 23);
             this.progressBar.TabIndex = 21;
             // 
             // contentEditor
@@ -241,11 +242,21 @@ namespace GropUpEmails
             this.contentEditor.Size = new System.Drawing.Size(713, 398);
             this.contentEditor.TabIndex = 22;
             // 
+            // status
+            // 
+            this.status.AutoSize = true;
+            this.status.Location = new System.Drawing.Point(13, 578);
+            this.status.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.status.Name = "status";
+            this.status.Size = new System.Drawing.Size(0, 15);
+            this.status.TabIndex = 23;
+            // 
             // GroupUpEmails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1168, 613);
+            this.Controls.Add(this.status);
             this.Controls.Add(this.contentEditor);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.regenarateBtn);
@@ -298,6 +309,7 @@ namespace GropUpEmails
         private Button regenarateBtn;
         private ProgressBar progressBar;
         private CNPOPSOFT.Controls.HtmlEditor contentEditor;
+        private Label status;
     }
 }
 

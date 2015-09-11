@@ -5,6 +5,7 @@ using System.Data.OleDb;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -18,7 +19,7 @@ namespace GropUpEmails
 {
     public partial class GroupUpEmails : Form
     {
-        private const string STYLE_HEADER =
+        private const string  STYLE_HEADER =
             "HEIGHT: 23.25pt; " +
             "WIDTH: 92pt; " +
             "BORDER-TOP: windowtext 0.5pt solid;" +
@@ -34,9 +35,9 @@ namespace GropUpEmails
             "BORDER-BOTTOM: windowtext 0.5pt solid; " +
             "BORDER-LEFT: windowtext 0.5pt solid; " +
             "BACKGROUND-COLOR: transparent";
-
-        private DataTable detailTable;
-        private DataTable calculateTable;
+        
+        private DataTable _detailTable;
+        private DataTable _calculateTable;
 
         public GroupUpEmails()
         {
@@ -171,22 +172,22 @@ namespace GropUpEmails
                     OleDbDataAdapter myAdp = new OleDbDataAdapter(strComm, strConn);
                     DataSet ds = new DataSet();
                     myAdp.Fill(ds);
-                    detailTable = ds.Tables[0];
+                    _detailTable = ds.Tables[0];
 
                     strComm = "SELECT * FROM [计算$] ";
                     myAdp = new OleDbDataAdapter(strComm, strConn);
                     ds = new DataSet();
                     myAdp.Fill(ds);
-                    calculateTable = ds.Tables[0];
+                    _calculateTable = ds.Tables[0];
                     myConn.Close();
                 }
                 catch (System.Exception ex) {
                     MessageBox.Show(ex.Message);
                 }
             };
-            bgWork.RunWorkerCompleted += (sender, e) => {
-                if( callback!=null )
-                    callback();
+            bgWork.RunWorkerCompleted += (sender, e) =>
+            {
+                callback?.Invoke();
             };
             bgWork.RunWorkerAsync();
         }
@@ -197,8 +198,8 @@ namespace GropUpEmails
             try
             {
                 txtTitle.Text = Convert.ToString(recieverGridView.SelectedRows[0].Cells[1].Value);
-                DataRow[] results = detailTable.Select($"教师证件号 = '{recieverGridView.SelectedRows[0].Cells[2].Value}' ");
-                DataTable t = detailTable.Clone();
+                DataRow[] results = _detailTable.Select($"教师证件号 = '{recieverGridView.SelectedRows[0].Cells[2].Value}' ");
+                DataTable t = _detailTable.Clone();
                 foreach (DataRow row in results)
                 {
                     t.ImportRow(row);
@@ -226,6 +227,7 @@ namespace GropUpEmails
 
         protected void GetMailSend()
         {
+            btnOK.Enabled = false;
             int progress = 0;
             progressBar.Value = 0;
             int step = 100 / recieverGridView.Rows.Count;
@@ -249,9 +251,14 @@ namespace GropUpEmails
                     recieverEmail = ""
                 };
                 foreach (DataGridViewRow row in recieverGridView.Rows) {
-                    try {
-                        DataRow[] results = detailTable.Select($"教师证件号 = '{row.Cells[2].Value}' ");
-                        DataTable t = detailTable.Clone();
+                    try
+                    {
+                        Invoke(new Action<Label, string>((label, str) =>
+                        {
+                            label.Text = str;
+                        }), status, "正在发送给" + row.Cells[1].Value);
+                        DataRow[] results = _detailTable.Select($"教师证件号 = '{row.Cells[2].Value}' ");
+                        DataTable t = _detailTable.Clone();
                         foreach (DataRow r in results) {
                             t.ImportRow(r);
                         }
@@ -263,6 +270,7 @@ namespace GropUpEmails
                         };
                         SendTo(client, model);
                         logSuccess += model.title + row.Cells[3].Value.ToString() + Resources.Endline;
+                        row.Cells[0].Value = false;
                         bgWork.ReportProgress(progress += step, model);
                     }
                     catch (Exception ex)
@@ -273,11 +281,13 @@ namespace GropUpEmails
             };
             bgWork.ProgressChanged += (sender, e) => {
                 progressBar.Value = e.ProgressPercentage;
-                txtTitle.Text= ((SendEmailModel)(e.UserState)).title;
-                contentEditor.Text =((SendEmailModel)(e.UserState)).content;
+                txtTitle.Text = ((SendEmailModel)(e.UserState)).title;
+                contentEditor.Text = ((SendEmailModel)(e.UserState)).content;
             };
             bgWork.RunWorkerCompleted += (sender, e) => {
                 progressBar.Value = 100;
+                btnOK.Enabled = true;
+                status.Text = "完成";
                 MessageBox.Show(logSuccess + logFailed);
             };
             bgWork.RunWorkerAsync();
