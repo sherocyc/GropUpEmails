@@ -59,12 +59,12 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msData="urn:schemas-microsoft-com:xml-msData">
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msData:IsDataSet="true">
+    <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metaData">
+          <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
@@ -81,22 +81,22 @@
               <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
-          <xsd:element name="Data">
+          <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msData:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msData:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msData:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msData:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msData:Ordinal="4" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
               <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msData:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
               <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
@@ -117,50 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metaData name="openFileDialogRecievers.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>198, 17</value>
-  </metaData>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <Data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        AAABAAEAICAAAAEACACoCAAAFgAAACgAAAAgAAAAQAAAAAEACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB9AAAAAAAAAIIAAAiCCAAAjgAAAJIAAAiO
-        CAAQihAAAJ4AAAieCAAVkBUAFJoUAAWiBQAAsAAAEKIQABieGAAIrwgAEK8QABugGwAYrhgALZAtACme
-        KQAerh4AKbApAAC/AAAIwAgAEMMQAADZAAAYvhgAIcEhABDWEAAc0BwAAJKUAAAAAAAIkpQAAAAAAACe
-        nAAAAAAACJ6cAAAAAAAQnpwAGJ6cABCipQAYoqUAIaKlAAAAAAApoqUAAAAAADWYNQA5njkAMbIxAAAA
-        AABSolIAUq5SAGOuYwAAAAAALdEtACHfIQAh3zkAAAAAAErPSgBS01IAQt9KAAAAAAA5oqUALK6tADOv
-        rwA5srUAQq6tAEawsQBOsrUASr69AG2ybQBuwm4Ae8B7AIS/hABgsrUAUr69AF++vQBrz6UAiMOPAAAA
-        AABvvrkAnMOcAGzAwgBwx8gAe8PGAH3HyACcz60Apc+lAIzKxgCM37UAf87OAInQ0ACUz84AkdPVAK3T
-        rQC107UAnM/OAKDT1gC52bkAvd+9AKbX2ACx4dYAvdPWALnf3gDK4dQAAAAAAMrj5wDS6dIA1u/WAM7v
-        7wDW7+8A1vP3AN7v7wDn7+cA7/HvAOfz9wDv8/cA9/P3AP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAA+Pj4+Pj4+Pj4+Pj4+Pj46uT0+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+NOAh4Pz+Pj4
-        +Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+PjkipSWh7bt+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+PjzsYKGlJeP
-        goLL+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj46rGCioiVjZmIgILL9/j4+Pj4+Pj4+Pj4+Pj49O74+PiGgImI
-        iJaNnoiAiIDZ+Pj47fj4+Pj4+Pj4+OGCgIrTyYCGiY2GnpualoaGh7XLyICAsPT4+Pj4+Pj4lICAlYCJ
-        hJGOhZGTm4KZjoaUjYCAj4CA0Pj4+Pj4+PSAkoCNio6QjIaLnpSQkZCOjoCQl5KCjoDI+Pj4+Pj0ioqD
-        kYCRkJyEjpGFn5udi4qRi42JloCOhIDQ+Pj4+OCAg4yLiZaRhpCRhriLmYWQjoOdkIiIjYqRgJT4+Pj4
-        yIqIhJiauYiGn4uXhZ6bn4eOjY2Nlp+dk4CNgPP4+PiUgIaTiIqMmomTlpOYkpiLk5GCiJecioqRjIKA
-        5fj4+NnKybSKkI2YmpiAnrK+uryRnIeYmZiNjrDIybT0+Pj43aCgxNba2Mq9nZmf3aCgxsm5mbjKy9Da
-        zaygx/j4+PKgoKCgoKCgq8TSz+egoKCg49vUzsKkoKCgoKCg4/j48KCgoKCgoKCgrMbe6KCgoKDd3car
-        oKCgoKCgoKDd+Pj4zqCgqcbV1t3WwqjjzqCgruqowtbW1dzMq6CgrvX4+Pj47NbOrqCgoKDF3MDm5uPn
-        wdbGoKCgoK7M1eP4+Pj4+PGmoKCgoKCo3cOg36TX3qLdoMHiq6CgoKCgpvD4+Pj446CgoKCgweKmoMbG
-        ps7UrMHOoKbfwqCgoKCg3/j4+PjwoKCgrtrMoKCo1qDGwa7NoNKroKDG18GgoKDs+Pj4+PjsxtXVoKCg
-        oOOmoN2goN+gpuagoKCg1NfG6fj4+Pj4+Pj43qCgoKDGw6Cg36Cg4qCgwc6goKCg3fj4+Pj4+Pj4+PjO
-        oKCgqtygoKDdoKDcqKCg1q6goKDE+Pj4+Pj4+Pj4+N+goKDeoKCgw8agoMPFoKCg4qCgoN74+Pj4+Pj4
-        +Pj4+N7M5s6goKDOrKCgqNygoKDG6c7c+Pj4+Pj4+Pj4+Pj4+Pj4zKCgoNegoKCg3aCgoMb4+Pj4+Pj4
-        +Pj4+Pj4+Pj4+PjsqaDF9KCgoKDvxaCp7Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj49/j436Cg3vj49fj4+Pj4
-        +Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj49vf4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4
-        +Pj4+Pj4+Pj4+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAA
-</value>
-  </Data>
+  <metadata name="openFileDialogRecievers.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

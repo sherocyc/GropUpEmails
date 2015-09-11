@@ -32,7 +32,6 @@ namespace GropUpEmails
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GroupUpEmails));
             this.lblSender = new System.Windows.Forms.Label();
             this.txtSender = new System.Windows.Forms.TextBox();
             this.lblReciever = new System.Windows.Forms.Label();
@@ -207,6 +206,8 @@ namespace GropUpEmails
             // 
             // recieverGridView
             // 
+            this.recieverGridView.AllowUserToAddRows = false;
+            this.recieverGridView.AllowUserToDeleteRows = false;
             this.recieverGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.recieverGridView.Location = new System.Drawing.Point(843, 14);
             this.recieverGridView.MultiSelect = false;
@@ -264,7 +265,6 @@ namespace GropUpEmails
             this.Controls.Add(this.lblReciever);
             this.Controls.Add(this.txtSender);
             this.Controls.Add(this.lblSender);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "GroupUpEmails";

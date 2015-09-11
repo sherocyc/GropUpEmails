@@ -80,7 +80,7 @@ namespace GropUpEmails.Properties {
         }
         
         /// <summary>
-        ///   查找类似 Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.* 的本地化字符串。
+        ///   查找类似 Excel files (*.xls;*.xlsx)|*.xls;*.xlsx|All files (*.*)|*.* 的本地化字符串。
         /// </summary>
         internal static string ExcelFilter {
             get {

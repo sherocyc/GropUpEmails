@@ -1,12 +1,15 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
+using CNPOPSOFT.Controls;
 using GropUpEmails.Properties;
 using Application = System.Windows.Forms.Application;
 using DataTable = System.Data.DataTable;
@@ -32,31 +35,36 @@ namespace GropUpEmails
             "BORDER-LEFT: windowtext 0.5pt solid; " +
             "BACKGROUND-COLOR: transparent";
 
+        private DataTable detailTable;
+        private DataTable calculateTable;
+
         public GroupUpEmails()
         {
             InitializeComponent();
             txtSender.Text = UserPreference.Instance.Data.UserEmail;
             txtPwd.Text = UserPreference.Instance.Data.UserEmailPassword;
-            /*
-            if ((txtRecieverFile.Text = UserPreference.Instance.Data.RecieverDataPath) != "") {
-                GetRecievers(txtRecieverFile.Text);
-            }*/
-
+            btnData.Enabled = false;
+            regenarateBtn.Enabled = false;
             btnReciever.Click += (sender, e) =>{
-                GetRecieverFilePath();
-                GetRecievers(txtRecieverFile.Text);
+                if (GetRecieverFilePath()) {
+                    GetRecievers(txtRecieverFile.Text);
+                    btnData.Enabled = true;
+                }
             };
             btnData.Click += (sender, e) => {
-                GetDataFilePath();
-                GenerateDataPreview(txtDataFile.Text);
+                if (GetDataFilePath()) {
+                    GetDataTable(txtDataFile.Text, GenerateDataPreview);
+                    regenarateBtn.Enabled = true;
+                }
             };
 
             btnOK.Click += (sender, e) => {
-                GetMailSend(recieverGridView.SelectedRows[0].Cells[3].Value.ToString());
+                GetMailSend();
             };
             regenarateBtn.Click += (sender, e) => {
-                GenerateDataPreview(txtDataFile.Text);
+                GenerateDataPreview();
             };
+
             FormClosing += (sender, e) => {
                 if (MessageBox.Show(Resources.ComfirmQuit, Resources.Quit, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                     e.Cancel = true;
@@ -77,7 +85,7 @@ namespace GropUpEmails
             try
             {
                 progressBar.Value = 0;
-                string strConn = $"Provider=Microsoft.Ace.OleDb.12.0;Data Source={xlsFilePath};Extended Properties='Excel 12.0; HDR=Yes; IMEX=1'";
+                string strConn = $"Provider=Microsoft.Ace.OleDb.12.0;Data Source={xlsFilePath};Extended Properties='Excel 12.0; HDR=Yes; IMEX=1;'";
                 string strComm = "SELECT 教师姓名,教师证件号,邮箱号 FROM [Sheet1$]";
                 OleDbConnection myConn = new OleDbConnection(strConn);
                 OleDbDataAdapter myAdp = new OleDbDataAdapter(strComm, strConn);
@@ -109,7 +117,7 @@ namespace GropUpEmails
             }
 
         }
-        private void GetRecieverFilePath() {
+        private bool GetRecieverFilePath() {
             OpenFileDialog openFileDialog = new OpenFileDialog {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
                 Filter = Resources.ExcelFilter, 
@@ -117,18 +125,20 @@ namespace GropUpEmails
                 RestoreDirectory = true
             };
 
-            if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+            if (openFileDialog.ShowDialog() != DialogResult.OK) return false;
             try {
                 Stream myStream = openFileDialog.OpenFile();
                 using (myStream) {
                 }
                 txtRecieverFile.Text = openFileDialog.FileName;
+                return true;
             }
             catch (Exception e) {
                 MessageBox.Show(e.Message);
+                return false;
             }
         }
-        private void GetDataFilePath() {
+        private bool GetDataFilePath() {
             OpenFileDialog openFileDialog = new OpenFileDialog {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
                 Filter = Resources.ExcelFilter,
@@ -137,32 +147,63 @@ namespace GropUpEmails
             };
 
             if (openFileDialog.ShowDialog() != DialogResult.OK)
-                return;
+                return false;
             try {
                 Stream myStream = openFileDialog.OpenFile();
+                using (myStream) {
+                }
                 txtDataFile.Text = openFileDialog.FileName;
+                return true;
             }
             catch (Exception e) {
                 MessageBox.Show(e.Message);
+                return false;
             }
         }
-        private void GenerateDataPreview(string xlsFilePath)
+        private void GetDataTable(string xlsFilePath , Action callback) {
+            BackgroundWorker bgWork = new BackgroundWorker();
+            bgWork.DoWork += (sender, e) => {
+                try {
+                    string strConn = $"Provider=Microsoft.Ace.OleDb.12.0;Data Source={xlsFilePath};Extended Properties='Excel 12.0; HDR=Yes;IMEX=1;'";
+                    string strComm = "SELECT * FROM [明细$] ";
+                    OleDbConnection myConn = new OleDbConnection(strConn);
+                    myConn.Open();
+                    OleDbDataAdapter myAdp = new OleDbDataAdapter(strComm, strConn);
+                    DataSet ds = new DataSet();
+                    myAdp.Fill(ds);
+                    detailTable = ds.Tables[0];
+
+                    strComm = "SELECT * FROM [计算$] ";
+                    myAdp = new OleDbDataAdapter(strComm, strConn);
+                    ds = new DataSet();
+                    myAdp.Fill(ds);
+                    calculateTable = ds.Tables[0];
+                    myConn.Close();
+                }
+                catch (System.Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
+            };
+            bgWork.RunWorkerCompleted += (sender, e) => {
+                if( callback!=null )
+                    callback();
+            };
+            bgWork.RunWorkerAsync();
+        }
+        private void GenerateDataPreview()
         {
             contentEditor.Text = "";
             progressBar.Value = 0;
             try
             {
-                progressBar.Value = 1;
-                string strConn = $"Provider=Microsoft.Ace.OleDb.12.0;Data Source={xlsFilePath};Extended Properties='Excel 12.0; HDR=Yes; IMEX=1'";
-                string strComm = $"SELECT * FROM [Sheet1$] WHERE 教师证件号 = \"{recieverGridView.SelectedRows[0].Cells[2].Value}\" ";
-                OleDbConnection myConn = new OleDbConnection(strConn);
-                OleDbDataAdapter myAdp = new OleDbDataAdapter(strComm, strConn);
-                DataSet ds = new DataSet();
-                myAdp.Fill(ds);
-                myConn.Close();
-
-                txtTitle.Text = Convert.ToString(ds.Tables[0].Rows[0][0]);
-                contentEditor.Text = GenerateContent(ds.Tables[0]).OuterXml;
+                txtTitle.Text = Convert.ToString(recieverGridView.SelectedRows[0].Cells[1].Value);
+                DataRow[] results = detailTable.Select($"教师证件号 = '{recieverGridView.SelectedRows[0].Cells[2].Value}' ");
+                DataTable t = detailTable.Clone();
+                foreach (DataRow row in results)
+                {
+                    t.ImportRow(row);
+                }
+                contentEditor.Text = GenerateContent(t).OuterXml;
 
                 progressBar.Value = 100;
 
@@ -173,39 +214,73 @@ namespace GropUpEmails
             }
         }
 
-        private void SendTo(SmtpClient client, string recieverEmail, string title, string content) {
-            try
-            {
-                MailMessage message = new MailMessage(txtSender.Text, recieverEmail) {
-                    Subject = title,
-                    Body = content,
-                    BodyEncoding = Encoding.UTF8,
-                    IsBodyHtml = true
-                };
-                client.Send(message);
-                MessageBox.Show("发送邮件成功！");
-            }
-            catch (Exception e) {
-                MessageBox.Show(e.Message);
-            }
+        private void SendTo(SmtpClient client, SendEmailModel model) {
+            MailMessage message = new MailMessage(txtSender.Text, model.recieverEmail) {
+                Subject = model.title,
+                Body = model.content,
+                BodyEncoding = Encoding.UTF8,
+                IsBodyHtml = true
+            };
+            client.Send(message);
         }
-        protected void GetMailSend(string reciever)
+
+        protected void GetMailSend()
         {
-            try
+            int progress = 0;
+            progressBar.Value = 0;
+            int step = 100 / recieverGridView.Rows.Count;
+            txtSender.Text = txtSender.Text.TrimEnd("@qq.com".ToCharArray()) + @"@qq.com";
+            SmtpClient client = new SmtpClient {
+                Host = "smtp.qq.com",
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(txtSender.Text, txtPwd.Text),
+                DeliveryMethod = SmtpDeliveryMethod.Network
+            };
+            string logSuccess = "发送成功:" + Resources.Endline;
+            string logFailed = "发送失败:" + Resources.Endline;
+
+            BackgroundWorker bgWork = new BackgroundWorker {WorkerReportsProgress = true};
+
+            bgWork.DoWork += (sender, e) =>
             {
-                txtSender.Text = txtSender.Text.TrimEnd("@qq.com".ToCharArray()) + @"@qq.com";
-                SmtpClient client = new SmtpClient {
-                    Host = "smtp.qq.com",
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(txtSender.Text, txtPwd.Text),
-                    DeliveryMethod = SmtpDeliveryMethod.Network
+                SendEmailModel model = new SendEmailModel {
+                    title = "",
+                    content = "",
+                    recieverEmail = ""
                 };
-                SendTo(client,reciever,txtTitle.Text,contentEditor.Text);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
+                foreach (DataGridViewRow row in recieverGridView.Rows) {
+                    try {
+                        DataRow[] results = detailTable.Select($"教师证件号 = '{row.Cells[2].Value}' ");
+                        DataTable t = detailTable.Clone();
+                        foreach (DataRow r in results) {
+                            t.ImportRow(r);
+                        }
+                        model = new SendEmailModel
+                        {
+                            title = Convert.ToString(row.Cells[1].Value),
+                            content = GenerateContent(t).OuterXml,
+                            recieverEmail = row.Cells[3].Value.ToString()
+                        };
+                        SendTo(client, model);
+                        logSuccess += model.title + row.Cells[3].Value.ToString() + Resources.Endline;
+                        bgWork.ReportProgress(progress += step, model);
+                    }
+                    catch (Exception ex)
+                    {
+                        logFailed += model.title + row.Cells[3].Value.ToString() + Resources.Endline + ex.Message;
+                    }
+                }
+            };
+            bgWork.ProgressChanged += (sender, e) => {
+                progressBar.Value = e.ProgressPercentage;
+                txtTitle.Text= ((SendEmailModel)(e.UserState)).title;
+                contentEditor.Text =((SendEmailModel)(e.UserState)).content;
+            };
+            bgWork.RunWorkerCompleted += (sender, e) => {
+                progressBar.Value = 100;
+                MessageBox.Show(logSuccess + logFailed);
+            };
+            bgWork.RunWorkerAsync();
         }
         private XmlAttribute createAttribute(XmlDocument doc, string name, string value)
         {

@@ -124,7 +124,7 @@
     <value>确认退出...</value>
   </data>
   <data name="ExcelFilter" xml:space="preserve">
-    <value>Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*</value>
+    <value>Excel files (*.xls;*.xlsx)|*.xls;*.xlsx|All files (*.*)|*.*</value>
   </data>
   <data name="Endline" xml:space="preserve">
     <value>
