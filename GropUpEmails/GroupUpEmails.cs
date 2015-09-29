@@ -195,14 +195,24 @@ namespace GropUpEmails
             try
             {
                 txtTitle.Text = Convert.ToString(recieverGridView.SelectedRows[0].Cells[1].Value);
+
+                String str;
                 DataRow[] results = _detailTable.Select($"教师证件号 = '{recieverGridView.SelectedRows[0].Cells[2].Value}' ");
                 DataTable t = _detailTable.Clone();
                 foreach (DataRow row in results)
                 {
                     t.ImportRow(row);
                 }
-                contentEditor.Text = GenerateContent(t).OuterXml;
+                str = GenerateContent( t ).OuterXml;
 
+                results = _calculateTable.Select( $"身份证号 = '{recieverGridView.SelectedRows[0].Cells[2].Value}' " );
+                t = _calculateTable.Clone();
+                foreach ( DataRow row in results ) {
+                    t.ImportRow( row );
+                }
+                str += GenerateContent( t ).OuterXml;
+
+                contentEditor.Text = str;
                 progressBar.Value = 100;
 
             }
@@ -248,31 +258,36 @@ namespace GropUpEmails
                     recieverEmail = ""
                 };
                 foreach (DataGridViewRow row in recieverGridView.Rows) {
-                    try
-                    {
-                        Invoke(new Action<Label, string>((label, str) =>
-                        {
-                            label.Text = str;
-                        }), status, "正在发送给" + row.Cells[1].Value);
-                        DataRow[] results = _detailTable.Select($"教师证件号 = '{row.Cells[2].Value}' ");
-                        DataTable t = _detailTable.Clone();
-                        foreach (DataRow r in results) {
-                            t.ImportRow(r);
+                    if ( (bool)row.Cells[0].Value == true ) {
+                        try {
+                            Invoke( new Action<Label , string>( ( label , str ) => {
+                                label.Text = str;
+                            } ) , status , "正在发送给" + row.Cells[1].Value );
+                            DataRow[] results1 = _detailTable.Select( $"教师证件号 = '{row.Cells[2].Value}' " );
+                            DataTable t1 = _detailTable.Clone();
+                            foreach ( DataRow r in results1 ) {
+                                t1.ImportRow( r );
+                            }
+
+                            DataRow[] results2 = _calculateTable.Select( $"身份证号 = '{row.Cells[2].Value}' " );
+                            DataTable t2 = _calculateTable.Clone();
+                            foreach ( DataRow r in results2 ) {
+                                t2.ImportRow( r );
+                            }
+
+                            model = new SendEmailModel {
+                                title = Convert.ToString( "课时，计算" ) ,
+                                content = GenerateContent( t1 ).OuterXml + GenerateContent( t2 ).OuterXml ,
+                                recieverEmail = row.Cells[3].Value.ToString()
+                            };
+                            SendTo( client , model );
+                            logSuccess += row.Cells[1].Value.ToString() + "\t" + row.Cells[3].Value.ToString() + Resources.Endline;
+                            row.Cells[0].Value = false;
+                            bgWork.ReportProgress( progress += step , model );
                         }
-                        model = new SendEmailModel
-                        {
-                            title = Convert.ToString(row.Cells[1].Value),
-                            content = GenerateContent(t).OuterXml,
-                            recieverEmail = row.Cells[3].Value.ToString()
-                        };
-                        SendTo(client, model);
-                        logSuccess += model.title + row.Cells[3].Value.ToString() + Resources.Endline;
-                        row.Cells[0].Value = false;
-                        bgWork.ReportProgress(progress += step, model);
-                    }
-                    catch (Exception ex)
-                    {
-                        logFailed += model.title + row.Cells[3].Value.ToString() + Resources.Endline + ex.Message;
+                        catch ( Exception ex ) {
+                            logFailed += row.Cells[1].Value.ToString() + "\t" + row.Cells[3].Value.ToString() + Resources.Endline + ex.Message;
+                        }
                     }
                 }
             };
