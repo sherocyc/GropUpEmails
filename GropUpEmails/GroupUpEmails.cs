@@ -197,7 +197,7 @@ namespace GropUpEmails
                 txtTitle.Text = Convert.ToString(recieverGridView.SelectedRows[0].Cells[1].Value);
 
                 String str;
-                DataRow[] results = _detailTable.Select($"教师证件号 = '{recieverGridView.SelectedRows[0].Cells[2].Value}' ");
+                DataRow[] results = _detailTable.Select($"教师姓名 = '{recieverGridView.SelectedRows[0].Cells[1].Value}' ");
                 DataTable t = _detailTable.Clone();
                 foreach (DataRow row in results)
                 {
@@ -205,7 +205,7 @@ namespace GropUpEmails
                 }
                 str = GenerateContent( t ).OuterXml;
 
-                results = _calculateTable.Select( $"身份证号 = '{recieverGridView.SelectedRows[0].Cells[2].Value}' " );
+                results = _calculateTable.Select( $"教师姓名 = '{recieverGridView.SelectedRows[0].Cells[1].Value}' " );
                 t = _calculateTable.Clone();
                 foreach ( DataRow row in results ) {
                     t.ImportRow( row );
@@ -238,9 +238,9 @@ namespace GropUpEmails
             int progress = 0;
             progressBar.Value = 0;
             int step = 100 / recieverGridView.Rows.Count;
-            txtSender.Text = txtSender.Text.TrimEnd("@qq.com".ToCharArray()) + @"@qq.com";
+            txtSender.Text = txtSender.Text.TrimEnd( "@qq.com".ToCharArray()) + @"@qq.com";
             SmtpClient client = new SmtpClient {
-                Host = "smtp.qq.com",
+                Host = "smtp.qq.com" ,
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(txtSender.Text, txtPwd.Text),
                 DeliveryMethod = SmtpDeliveryMethod.Network
@@ -263,13 +263,13 @@ namespace GropUpEmails
                             Invoke( new Action<Label , string>( ( label , str ) => {
                                 label.Text = str;
                             } ) , status , "正在发送给" + row.Cells[1].Value );
-                            DataRow[] results1 = _detailTable.Select( $"教师证件号 = '{row.Cells[2].Value}' " );
+                            DataRow[] results1 = _detailTable.Select( $"教师姓名 = '{row.Cells[1].Value}' " );
                             DataTable t1 = _detailTable.Clone();
                             foreach ( DataRow r in results1 ) {
                                 t1.ImportRow( r );
                             }
 
-                            DataRow[] results2 = _calculateTable.Select( $"身份证号 = '{row.Cells[2].Value}' " );
+                            DataRow[] results2 = _calculateTable.Select( $"教师姓名 = '{row.Cells[1].Value}' " );
                             DataTable t2 = _calculateTable.Clone();
                             foreach ( DataRow r in results2 ) {
                                 t2.ImportRow( r );
@@ -277,7 +277,7 @@ namespace GropUpEmails
 
                             model = new SendEmailModel {
                                 title = Convert.ToString( "课时，计算" ) ,
-                                content = GenerateContent( t1 ).OuterXml + GenerateContent( t2 ).OuterXml ,
+                                content = GenerateContent( t1 ).OuterXml + Resources.Endline + Resources.Endline+ GenerateContent( t2 ).OuterXml ,
                                 recieverEmail = row.Cells[3].Value.ToString()
                             };
                             SendTo( client , model );
