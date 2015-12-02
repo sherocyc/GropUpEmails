@@ -163,7 +163,7 @@ namespace GropUpEmails
             bgWork.DoWork += (sender, e) => {
                 try {
                     string strConn = $"Provider=Microsoft.Ace.OleDb.12.0;Data Source={xlsFilePath};Extended Properties='Excel 12.0; HDR=Yes;IMEX=1;'";
-                    string strComm = "SELECT * FROM [明细$] ";
+                    string strComm = "SELECT * FROM [英语$] ";
                     OleDbConnection myConn = new OleDbConnection(strConn);
                     myConn.Open();
                     OleDbDataAdapter myAdp = new OleDbDataAdapter(strComm, strConn);
@@ -171,7 +171,7 @@ namespace GropUpEmails
                     myAdp.Fill(ds);
                     _detailTable = ds.Tables[0];
 
-                    strComm = "SELECT * FROM [计算$] ";
+                    strComm = "SELECT * FROM [计算列$] ";
                     myAdp = new OleDbDataAdapter(strComm, strConn);
                     ds = new DataSet();
                     myAdp.Fill(ds);
@@ -238,7 +238,7 @@ namespace GropUpEmails
             int progress = 0;
             progressBar.Value = 0;
             int step = 100 / recieverGridView.Rows.Count;
-            txtSender.Text = txtSender.Text.TrimEnd( "@qq.com".ToCharArray()) + @"@qq.com";
+            //txtSender.Text = txtSender.Text.TrimEnd( "@qq.com".ToCharArray()) + @"@qq.com";
             SmtpClient client = new SmtpClient {
                 Host = "smtp.qq.com" ,
                 UseDefaultCredentials = false,

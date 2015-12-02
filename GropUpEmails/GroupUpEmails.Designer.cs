@@ -44,7 +44,6 @@ namespace GropUpEmails
             this.lblPwd = new System.Windows.Forms.Label();
             this.txtPwd = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.txtDataFile = new System.Windows.Forms.TextBox();
             this.btnData = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -53,6 +52,7 @@ namespace GropUpEmails
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.contentEditor = new CNPOPSOFT.Controls.HtmlEditor();
             this.status = new System.Windows.Forms.Label();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.recieverGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -167,15 +167,6 @@ namespace GropUpEmails
             this.btnOK.Text = "确定发送";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(661, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 15);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "@qq.com";
-            // 
             // txtDataFile
             // 
             this.txtDataFile.Location = new System.Drawing.Point(231, 102);
@@ -251,11 +242,24 @@ namespace GropUpEmails
             this.status.Size = new System.Drawing.Size(0, 15);
             this.status.TabIndex = 23;
             // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 15;
+            this.listBox1.Items.AddRange(new object[] {
+            "@qq.com",
+            "@163.com"});
+            this.listBox1.Location = new System.Drawing.Point(664, 14);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(95, 19);
+            this.listBox1.TabIndex = 24;
+            // 
             // GroupUpEmails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1168, 613);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.status);
             this.Controls.Add(this.contentEditor);
             this.Controls.Add(this.progressBar);
@@ -264,7 +268,6 @@ namespace GropUpEmails
             this.Controls.Add(this.txtDataFile);
             this.Controls.Add(this.btnData);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtPwd);
             this.Controls.Add(this.lblPwd);
@@ -301,7 +304,6 @@ namespace GropUpEmails
         private Label lblPwd;
         private TextBox txtPwd;
         private Button btnOK;
-        private Label label1;
         private TextBox txtDataFile;
         private Button btnData;
         private Label label2;
@@ -310,6 +312,7 @@ namespace GropUpEmails
         private ProgressBar progressBar;
         private CNPOPSOFT.Controls.HtmlEditor contentEditor;
         private Label status;
+        private ListBox listBox1;
     }
 }
 
