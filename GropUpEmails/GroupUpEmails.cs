@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
-using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
@@ -16,6 +15,8 @@ namespace GropUpEmails
 {
     public partial class GroupUpEmails : Form
     {
+        private GroupUpEmailManager manager;
+
         private const string  STYLE_HEADER =
             "HEIGHT: 23.25pt; " +
             "WIDTH: 92pt; " +
@@ -39,21 +40,24 @@ namespace GropUpEmails
         public GroupUpEmails()
         {
             InitializeComponent();
+            manager = new GroupUpEmailManager( this );
             txtSender.Text = UserPreference.Instance.Data.UserEmail;
             txtPwd.Text = UserPreference.Instance.Data.UserEmailPassword;
             btnData.Enabled = false;
             regenarateBtn.Enabled = false;
             btnReciever.Click += (sender, e) =>{
-                if (GetRecieverFilePath()) {
-                    GetRecievers(txtRecieverFile.Text);
+                Utils.OpenXlsFile(filename => {
+                    txtRecieverFile.Text = filename;
+                    GetRecievers( txtRecieverFile.Text );
                     btnData.Enabled = true;
-                }
+                });
             };
             btnData.Click += (sender, e) => {
-                if (GetDataFilePath()) {
-                    GetDataTable(txtDataFile.Text, GenerateDataPreview);
+                Utils.OpenXlsFile( filename => {
+                    txtDataFile.Text = filename;
+                    GetDataTable( txtDataFile.Text , GenerateDataPreview );
                     regenarateBtn.Enabled = true;
-                }
+                } );
             };
 
             btnOK.Click += (sender, e) => {
@@ -113,51 +117,8 @@ namespace GropUpEmails
             {
                 MessageBox.Show(e.Message);
             }
-
         }
-        private bool GetRecieverFilePath() {
-            OpenFileDialog openFileDialog = new OpenFileDialog {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
-                Filter = Resources.ExcelFilter, 
-                FilterIndex = 1,
-                RestoreDirectory = true
-            };
 
-            if (openFileDialog.ShowDialog() != DialogResult.OK) return false;
-            try {
-                Stream myStream = openFileDialog.OpenFile();
-                using (myStream) {
-                }
-                txtRecieverFile.Text = openFileDialog.FileName;
-                return true;
-            }
-            catch (Exception e) {
-                MessageBox.Show(e.Message);
-                return false;
-            }
-        }
-        private bool GetDataFilePath() {
-            OpenFileDialog openFileDialog = new OpenFileDialog {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
-                Filter = Resources.ExcelFilter,
-                FilterIndex = 1,
-                RestoreDirectory = true
-            };
-
-            if (openFileDialog.ShowDialog() != DialogResult.OK)
-                return false;
-            try {
-                Stream myStream = openFileDialog.OpenFile();
-                using (myStream) {
-                }
-                txtDataFile.Text = openFileDialog.FileName;
-                return true;
-            }
-            catch (Exception e) {
-                MessageBox.Show(e.Message);
-                return false;
-            }
-        }
         private void GetDataTable(string xlsFilePath , Action callback) {
             BackgroundWorker bgWork = new BackgroundWorker();
             bgWork.DoWork += (sender, e) => {

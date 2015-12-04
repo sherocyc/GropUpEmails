@@ -52,7 +52,7 @@ namespace GropUpEmails
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.contentEditor = new CNPOPSOFT.Controls.HtmlEditor();
             this.status = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.recieverGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -242,24 +242,23 @@ namespace GropUpEmails
             this.status.Size = new System.Drawing.Size(0, 15);
             this.status.TabIndex = 23;
             // 
-            // listBox1
+            // comboBox1
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 15;
-            this.listBox1.Items.AddRange(new object[] {
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
             "@qq.com",
             "@163.com"});
-            this.listBox1.Location = new System.Drawing.Point(664, 14);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(95, 19);
-            this.listBox1.TabIndex = 24;
+            this.comboBox1.Location = new System.Drawing.Point(664, 10);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 23);
+            this.comboBox1.TabIndex = 24;
             // 
             // GroupUpEmails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1168, 613);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.status);
             this.Controls.Add(this.contentEditor);
             this.Controls.Add(this.progressBar);
@@ -312,7 +311,7 @@ namespace GropUpEmails
         private ProgressBar progressBar;
         private CNPOPSOFT.Controls.HtmlEditor contentEditor;
         private Label status;
-        private ListBox listBox1;
+        private ComboBox comboBox1;
     }
 }
 

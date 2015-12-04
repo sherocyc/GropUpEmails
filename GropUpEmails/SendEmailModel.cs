@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GropUpEmails {
-    class SendEmailModel
+﻿namespace GropUpEmails {
+    struct SendEmailModel
     {
         public string recieverEmail;
         public string title;
