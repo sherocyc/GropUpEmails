@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace GropUpEmails
 {
-    partial class GroupUpEmails
+    partial class GroupUpEmailsForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -52,7 +52,7 @@ namespace GropUpEmails
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.contentEditor = new CNPOPSOFT.Controls.HtmlEditor();
             this.status = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.recieverGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -242,23 +242,20 @@ namespace GropUpEmails
             this.status.Size = new System.Drawing.Size(0, 15);
             this.status.TabIndex = 23;
             // 
-            // comboBox1
+            // comboBox
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "@qq.com",
-            "@163.com"});
-            this.comboBox1.Location = new System.Drawing.Point(664, 10);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 23);
-            this.comboBox1.TabIndex = 24;
+            this.comboBox.FormattingEnabled = true;
+            this.comboBox.Location = new System.Drawing.Point(664, 10);
+            this.comboBox.Name = "comboBox";
+            this.comboBox.Size = new System.Drawing.Size(121, 23);
+            this.comboBox.TabIndex = 24;
             // 
-            // GroupUpEmails
+            // GroupUpEmailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1168, 613);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboBox);
             this.Controls.Add(this.status);
             this.Controls.Add(this.contentEditor);
             this.Controls.Add(this.progressBar);
@@ -280,7 +277,7 @@ namespace GropUpEmails
             this.Controls.Add(this.lblSender);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.Name = "GroupUpEmails";
+            this.Name = "GroupUpEmailsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "吕陶丽群发邮件";
             ((System.ComponentModel.ISupportInitialize)(this.recieverGridView)).EndInit();
@@ -292,7 +289,6 @@ namespace GropUpEmails
         #endregion
 
         private Label lblSender;
-        private TextBox txtSender;
         private Label lblReciever;
         private OpenFileDialog openFileDialogRecievers;
         private Button btnReciever;
@@ -301,17 +297,18 @@ namespace GropUpEmails
         private Label lblTitle;
         private TextBox txtTitle;
         private Label lblPwd;
-        private TextBox txtPwd;
         private Button btnOK;
         private TextBox txtDataFile;
         private Button btnData;
         private Label label2;
-        private DataGridView recieverGridView;
         private Button regenarateBtn;
-        private ProgressBar progressBar;
         private CNPOPSOFT.Controls.HtmlEditor contentEditor;
         private Label status;
-        private ComboBox comboBox1;
+        public ProgressBar progressBar;
+        public TextBox txtSender;
+        public TextBox txtPwd;
+        public ComboBox comboBox;
+        public DataGridView recieverGridView;
     }
 }
 

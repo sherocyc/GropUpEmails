@@ -6,6 +6,7 @@ namespace GropUpEmails {
         public string UserEmail="";
         public string UserEmailPassword="";
         public string RecieverDataPath = "";
+        public int SmtpIndex = 0;
     }
     class UserPreference
     {
