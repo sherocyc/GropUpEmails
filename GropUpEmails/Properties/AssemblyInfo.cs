@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GropUpEmails")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("番茄花园")]
+[assembly: AssemblyCompany( "刘子豪" )]
 [assembly: AssemblyProduct("GropUpEmails")]
-[assembly: AssemblyCopyright("Copyright © 番茄花园 2009")]
+[assembly: AssemblyCopyright("Copyright © 刘子豪 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
