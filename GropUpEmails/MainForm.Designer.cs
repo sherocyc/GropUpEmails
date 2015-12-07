@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace GropUpEmails
 {
-    partial class GroupUpEmailsForm
+    partial class MainForm
     {
         /// <summary>
         /// 必需的设计器变量。

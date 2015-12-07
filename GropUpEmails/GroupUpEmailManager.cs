@@ -8,14 +8,14 @@ using System.Windows.Forms;
 
 namespace GropUpEmails {
     class GroupUpEmailManager {
-        GroupUpEmailsForm ui;
+        MainForm ui;
         EmailEngine engine;
         public int Progress{
             set {
                 ui.progressBar.Value = value;
             }
         }
-        public GroupUpEmailManager ( GroupUpEmailsForm mainForm ) {
+        public GroupUpEmailManager ( MainForm mainForm ) {
             ui = mainForm;
             engine = new EmailEngine(this); 
         }
@@ -42,7 +42,7 @@ namespace GropUpEmails {
             float step = 100.0f / count ;
 
             SmtpClient client = new SmtpClient {
-                Host = ((ComboxItem)ui.comboBox.SelectedItem).Value,
+                Host = ((ComboBoxItem)ui.comboBox.SelectedItem).Value,
                 UseDefaultCredentials = false ,
                 Credentials = new NetworkCredential( ui.txtSender.Text + ui.comboBox.SelectedItem , ui.txtPwd.Text ) ,
                 DeliveryMethod = SmtpDeliveryMethod.Network

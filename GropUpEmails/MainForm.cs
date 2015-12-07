@@ -4,30 +4,11 @@ using Application = System.Windows.Forms.Application;
 
 namespace GropUpEmails
 {
-    public class ComboxItem {
-        public string Text {
-            get; set;
-        }
-        public string Value {
-            get; set;
-        }
-
-        public ComboxItem ( string _Text , string _Value ) {
-            Text = _Text;
-            Value = _Value;
-        }
-
-        public override string ToString () {
-            return Text;
-        }
-    }
-
-
-    public partial class GroupUpEmailsForm : Form
+    public partial class MainForm : Form
     {
         private GroupUpEmailManager manager;
 
-        public GroupUpEmailsForm()
+        public MainForm()
         {
             InitializeComponent();
             manager = new GroupUpEmailManager( this );
@@ -38,9 +19,9 @@ namespace GropUpEmails
             btnData.Enabled = false;
             regenarateBtn.Enabled = false;
 
-            ComboxItem[] items = {
-                new ComboxItem( "@qq.com" , "smtp.qq.com" ),
-                new ComboxItem( "@163.com" , "smtp.163.com" ),
+            ComboBoxItem[] items = {
+                new ComboBoxItem( "@qq.com" , "smtp.qq.com" ),
+                new ComboBoxItem( "@163.com" , "smtp.163.com" ),
             };
             comboBox.Items.AddRange( items );
             comboBox.SelectedIndex = UserPreference.Instance.Data.SmtpIndex;
@@ -116,5 +97,8 @@ namespace GropUpEmails
             };
         }
     }
+
+
+
 }
 

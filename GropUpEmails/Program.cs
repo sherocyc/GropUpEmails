@@ -13,7 +13,7 @@ namespace GropUpEmails
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GroupUpEmailsForm());
+            Application.Run(new MainForm());
         }
     }
 }
