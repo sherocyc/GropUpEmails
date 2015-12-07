@@ -8,14 +8,14 @@ using System.Windows.Forms;
 
 namespace GropUpEmails {
     class GroupUpEmailManager {
-        MainForm ui;
+        GroupUpEmailsForm ui;
         EmailEngine engine;
         public int Progress{
             set {
                 ui.progressBar.Value = value;
             }
         }
-        public GroupUpEmailManager ( MainForm mainForm ) {
+        public GroupUpEmailManager ( GroupUpEmailsForm mainForm ) {
             ui = mainForm;
             engine = new EmailEngine(this); 
         }
